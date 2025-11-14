@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPC OFFICIAL</title>
+    
+<link rel="icon" type="logo.png" href="https://hc-cdn.hel1.your-objectstorage.com/s/v3/c0c94a25341554153e01a96e6cf168bf9dd7460b_logo.png">
+
+    
+<style>
+    
+html, body {
+  height: 100%; 
+  margin: 0;
+}    
+    
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+    
+    footer {
+        padding: 14px;
+        text-align: center;
+        font-family: arial;
+    }
+
+header {
+    position: relative;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    background-color: rgb(34, 37, 49);
+    color: white;
+}
+
+#logo {
+    height: 100px;
+}
+
+h1 {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    color: #fff;
+}
+
+nav {
+    position: relative;
+}
+
+.ham-menu {
+    height: 35px;
+    width: 40px;
+    cursor: pointer;
+    position: relative;
+    margin-top: -20px; /* negative moves it up */
+
+}
+
+.ham-menu span {
+    display: block;
+    height: 4px;
+    width: 100%;
+    background-color: #6F86FF;
+    border-radius: 25px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.3s ease;
+}
+
+.ham-menu span:nth-child(1) { top: 0; }
+.ham-menu span:nth-child(2) { top: 50%; transform: translate(-50%, -50%); }
+.ham-menu span:nth-child(3) { bottom: 0; }
+
+.ham-menu.active span:nth-child(1) {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background-color: white;
+}
+.ham-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+.ham-menu.active span:nth-child(3) {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    background-color: white;
+}
+
+/* Off-screen menu */
+.off-screen-menu {
+    background-color: rgb(44, 62, 80);
+    height: 100vh;
+    width: 300px;
+    position: fixed;
+    top: 0;
+    right: -300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 2rem;
+    transition: 0.3s ease;
+}
+
+.off-screen-menu.active {
+    right: 0;
+}
+
+.off-screen-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.off-screen-menu ul li {
+    margin: 20px 0;
+    color: white;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/c0c94a25341554153e01a96e6cf168bf9dd7460b_logo.png" alt="PPC Logo" id="logo">
+    <h1>PPC Official</h1>
+    <nav>
+        <div class="ham-menu" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+</header>
+
+<div class="off-screen-menu" id="menu">
+    <ul>
+        <li>Projects</li>
+        <li>Coming Soon</li>
+        <li>Coming Soon</li>
+    </ul>
+</div>
+
+<script>
+
+// Get elements
+const hamburger = document.getElementById('hamburger');
+const menu = document.getElementById('menu');
+
+// Toggle menu on hamburger click
+hamburger.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent this click from reaching document
+    hamburger.classList.toggle('active');
+    menu.classList.toggle('active');
+});
+
+// Close menu when clicking a menu item
+menu.querySelectorAll('li').forEach(item => {
+    item.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        menu.classList.remove('active');
+    });
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        menu.classList.remove('active');
+    }
+});
+
+// Optional: Close menu with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        hamburger.classList.remove('active');
+        menu.classList.remove('active');
+    }
+});
+</script>
+
+    
+    <footer>
+        © 2025 Python Project Club |  All rights reserved
+        <br>
+        <p>Terms of Use</p>
+        <p>Privacy Policy</p>
+    </footer>
+
+
+</body>
+</html>
