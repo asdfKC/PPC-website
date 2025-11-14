@@ -130,72 +130,122 @@ nav {
 </style>
 </head>
 <body>
-
 <header>
-    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/c0c94a25341554153e01a96e6cf168bf9dd7460b_logo.png" alt="PPC Logo" id="logo">
-    <h1>PPC Official</h1>
-    <nav>
-        <div class="ham-menu" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
+    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/c0c94a25341554153e01a96e6cf168bf9dd7460b_logo.png" alt="PPC Logo" id="logo">
+    <h1>PPC Official</h1>
+    <nav>
+        <div class="ham-menu" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
 </header>
 
 <div class="off-screen-menu" id="menu">
-    <ul>
-        <li>Projects</li>
-        <li>Coming Soon</li>
-        <li>Coming Soon</li>
-    </ul>
+    <ul>
+        <!-- Added id and placeholder href for the script -->
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html" id="projects-link">Projects</a></li>
+        <li>Coming Soon</li>
+        <li>Coming Soon</li>
+    </ul>
 </div>
 
+<!-- NEW SCRIPT BLOCK - REPLACES THE OLD ONE -->
 <script>
-
-// Get elements
 const hamburger = document.getElementById('hamburger');
 const menu = document.getElementById('menu');
 
-// Toggle menu on hamburger click
-hamburger.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevent this click from reaching document
-    hamburger.classList.toggle('active');
-    menu.classList.toggle('active');
-});
+// Your fixed path prefix required by Hack Club Spaces
+const HACKCLUB_PATH_SUFFIX = "/s/ppc_official_website/";
 
-// Close menu when clicking a menu item
-menu.querySelectorAll('li').forEach(item => {
-    item.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        menu.classList.remove('active');
+/**
+ * Constructs the correct absolute URL required by Hack Club Spaces 
+ * by combining the site's root URL and the required path prefix.
+ * @param {string} filename The target filename (e.g., "projects.html").
+ * @returns {string} The fully qualified absolute URL.
+ */
+function constructHackClubPath(filename) {
+    const rootUrl = window.location.origin; // Gets "https://domain.com"
+    
+    // Ignore internal anchor links (like #about)
+    if (filename.startsWith('#')) {
+        return filename;
+    }
+    // Returns: https://[current-domain]/s/ppc_official_website/filename.html
+    return rootUrl + HACKCLUB_PATH_SUFFIX + filename;
+}
+
+// USAGE: Dynamically set the correct path for all internal links on page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Collect all elements that need dynamic URL construction
+    const linksToFix = [
+        document.getElementById('projects-link'),
+        document.getElementById('terms-link'),
+        document.getElementById('privacy-link')
+    ];
+
+    linksToFix.forEach(link => {
+        if (link) {
+            const filename = link.getAttribute('href');
+            // Check if the link has a simple filename (not an absolute URL already)
+            if (filename && !filename.startsWith('http') && !filename.startsWith('/s/')) {
+                link.href = constructHackClubPath(filename);
+            }
+        }
     });
 });
 
-// Close menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+
+function toggleMenu(isOpen) {
+    if (isOpen) {
+        hamburger.classList.add('active');
+        menu.classList.add('active');
+    } else {
         hamburger.classList.remove('active');
         menu.classList.remove('active');
     }
+}
+
+// 1. Toggle menu on hamburger click
+hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = hamburger.classList.contains('active');
+    toggleMenu(!isOpen);
 });
 
-// Optional: Close menu with Escape key
+// 2. Close menu when clicking a link (<a>) inside the menu
+// This prevents the JS from blocking the link navigation
+menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        toggleMenu(false);
+    });
+});
+
+// 3. Close menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+        toggleMenu(false);
+    }
+});
+
+// 4. Close menu with Escape key
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        hamburger.classList.remove('active');
-        menu.classList.remove('active');
+        toggleMenu(false);
     }
 });
 </script>
 
-    
-    <footer>
-        © 2025 Python Project Club |  All rights reserved
-        <br>
-        <p>Terms of Use</p>
-        <p>Privacy Policy</p>
-    </footer>
+    Bro its not done.
+<footer>
+        © 2025 Python Project Club |  All rights reserved
+        <br>
+        <!-- Added links and ids for the script -->
+        <p><a href="terms.html" id="terms-link">Terms of Use</a></p>
+        <p><a href="privacy.html" id="privacy-link">Privacy Policy</a></p>
+</footer>
 
 
 </body>
