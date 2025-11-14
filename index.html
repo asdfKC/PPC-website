@@ -157,8 +157,8 @@ nav {
 <div class="off-screen-menu" id="menu">
     <ul>
         <!-- Added id and placeholder href for the script -->
-        <li><a class="link" href="index.html">Home</a></li>
-        <li><a href="projects.html" class="link">Projects</a></li>
+        <li><a id="home-link" class="link" href="index.html">Home</a></li>
+        <li><a id="project-link" href="projects.html" class="link">Projects</a></li>
         <li>Coming Soon</li>
         <li>Coming Soon</li>
     </ul>
@@ -166,48 +166,34 @@ nav {
 
 <!-- NEW SCRIPT BLOCK - REPLACES THE OLD ONE -->
 <script>
-const hamburger = document.getElementById('hamburger');
-const menu = document.getElementById('menu');
-
-// Your fixed path prefix required by Hack Club Spaces
 const HACKCLUB_PATH_SUFFIX = "/s/ppc_official_website/";
 
-/**
- * Constructs the correct absolute URL required by Hack Club Spaces 
- * by combining the site's root URL and the required path prefix.
- * @param {string} filename The target filename (e.g., "projects.html").
- * @returns {string} The fully qualified absolute URL.
- */
 function constructHackClubPath(filename) {
-    const rootUrl = window.location.origin; // Gets "https://domain.com"
-    
-    // Ignore internal anchor links (like #about)
-    if (filename.startsWith('#')) {
-        return filename;
-    }
-    // Returns: https://[current-domain]/s/ppc_official_website/filename.html
+    const rootUrl = window.location.origin;
     return rootUrl + HACKCLUB_PATH_SUFFIX + filename;
 }
 
-// USAGE: Dynamically set the correct path for all internal links on page load
 document.addEventListener('DOMContentLoaded', () => {
-    // Collect all elements that need dynamic URL construction
-    const linksToFix = [
-        document.getElementById('projects-link'),
-        document.getElementById('terms-link'),
-        document.getElementById('privacy-link')
-    ];
+    document.querySelectorAll('a[href]').forEach(link => {
+        const href = link.getAttribute('href');
 
-    linksToFix.forEach(link => {
-        if (link) {
-            const filename = link.getAttribute('href');
-            // Check if the link has a simple filename (not an absolute URL already)
-            if (filename && !filename.startsWith('http') && !filename.startsWith('/s/')) {
-                link.href = constructHackClubPath(filename);
-            }
+        // Ignore full URLs (https://, http://, etc.)
+        if (href.startsWith('http://') || href.startsWith('https://')) return;
+
+        // Ignore anchor-only links (#section)
+        if (href.startsWith('#')) return;
+
+        // Ignore paths already pointing to /s/
+        if (href.startsWith('/s/')) return;
+
+        // Only modify local HTML files or simple filenames
+        if (href.endsWith('.html')) {
+            link.href = constructHackClubPath(href);
         }
     });
 });
+
+
 
 
 function toggleMenu(isOpen) {
