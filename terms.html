@@ -9,7 +9,16 @@
 
     
 <style>
+    .foot-text {
+        color: black;
+    }
     
+    
+    .link {
+    text-decoration: None;
+    color: white;
+    }
+        
     hr {
     height: 3px;
     color: black;
@@ -161,8 +170,8 @@ nav {
 <div class="off-screen-menu" id="menu">
     <ul>
         <!-- Added id and placeholder href for the script -->
-        <li><a href="index.html">Home</a></li>
-        <li><a href="projects.html" id="projects-link">Projects</a></li>
+        <li><a id="home-link" class="link" href="index.html">Home</a></li>
+        <li><a id="project-link" href="projects.html" class="link">Projects</a></li>
         <li>Coming Soon</li>
         <li>Coming Soon</li>
     </ul>
@@ -287,8 +296,8 @@ If you have any questions about these terms, please contact us <a href="mailto:/
         © 2025 Python Project Club |  All rights reserved
         <br>
         <!-- Added links and ids for the script -->
-        <p><a href="terms.html" id="terms-link">Terms of Use</a></p>
-        <p><a href="privacy.html" id="privacy-link">Privacy Policy</a></p>
+        <p><a href="terms.html" class="foot-text" id="terms-link">Terms of Use</a></p>
+        <p><a href="privacy.html" class="foot-text" id="privacy-link">Privacy Policy</a></p>
 </footer>
 
 
